@@ -1,13 +1,6 @@
 package com.exam.tradingcompany.entities.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 //Dùng DTO này tạo ra một biểu mẫu mới, custom cách trả về của thông tin đang yêu cầu
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class ProductWarehouse {
     private String name;
 
@@ -17,4 +10,35 @@ public class ProductWarehouse {
 
     private Double balance;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getReceived() {
+        return received;
+    }
+
+    public void setReceived(Double received) {
+        this.received = received;
+    }
+
+    public Double getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(Double delivery) {
+        this.delivery = delivery;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
+    }
 }

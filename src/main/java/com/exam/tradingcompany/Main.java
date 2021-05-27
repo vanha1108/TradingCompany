@@ -37,7 +37,8 @@ public class Main implements CommandLineRunner {
     @Autowired
     private InventoryReceivingNoteRepository inventoryReceivingNoteRepository;
 
-    @Autowired InventoryDeliveryNoteResponsitory inventoryDeliveryNoteResponsitory;
+    @Autowired
+    InventoryDeliveryNoteResponsitory inventoryDeliveryNoteResponsitory;
 
     @Override
     public void run(String... args) throws Exception {
@@ -46,9 +47,9 @@ public class Main implements CommandLineRunner {
 
     //Hàm khởi tạo data, có thể nhân bản lên để có nhiều data
     //Chú ý ràng buộc để sắp xếp thứ tự khi khởi tạo
-    private void iniData(){
-        if(customerRepository.count()==0){
-            Customer customer =new Customer();
+    private void iniData() {
+        if (customerRepository.count() == 0) {
+            Customer customer = new Customer();
             customer.setName("CUSTOMER");
             customer.setAddress("CUSTOMER");
             customer.setEmail("autho@gmail.com");
@@ -110,8 +111,6 @@ public class Main implements CommandLineRunner {
             salesInvoice2.setDate(new Date());
             salesInvoice2.setStaff(staff);
             salesInvoiceRepository.save(salesInvoice2);
-
         }
-
     }
 }
