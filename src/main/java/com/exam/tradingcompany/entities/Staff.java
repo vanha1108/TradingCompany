@@ -28,14 +28,14 @@ public class Staff {
     @Column
     private String email;
 
-    @ManyToMany(mappedBy = "staffDeliveries")
+    /*@ManyToMany(mappedBy = "staffDeliveries")
     private List<Product> productDeliveries = new ArrayList<>();
 
     @ManyToMany(mappedBy = "staffDeliveries")
     private List<Product> productRecieves = new ArrayList<>();
 
     @OneToMany(mappedBy = "staff")
-    private List<Order> orders = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();*/
 
     public Staff() {
     }
@@ -87,7 +87,7 @@ public class Staff {
         this.email = email;
     }
 
-    public List<Product> getProductDeliveries() {
+    /*public List<Product> getProductDeliveries() {
         return productDeliveries;
     }
 
@@ -109,5 +109,5 @@ public class Staff {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
-    }
+    }*/
 }

@@ -84,4 +84,11 @@ public class InventoryReceivingNote {
     public void setPrice(int price) {
         this.price = price;
     }
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 }

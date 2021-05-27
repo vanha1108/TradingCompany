@@ -22,6 +22,7 @@ public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
 
+    //Lấy ra thông tin tất cả order
     @GetMapping("/order")
     public ResponseEntity<?> getAllOrder(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
         try {
@@ -40,6 +41,7 @@ public class OrderController {
         }
     }
 
+    //Lấy thông tin order bời id
     @GetMapping("/order/{id}")
     public ResponseEntity<?> getSalesById(@PathVariable("id") Long id) {
         try {
@@ -50,6 +52,7 @@ public class OrderController {
         }
     }
 
+    //Thêm mới order
     @PostMapping("/order")
     public ResponseEntity<?> createOrder(@RequestBody Order order) {
         try {
@@ -61,6 +64,7 @@ public class OrderController {
         }
     }
 
+    //cCập nhật order
     @PatchMapping("/order/{id}")
     public ResponseEntity<?> updateOrder(@PathVariable("id") Long id, @RequestBody Order order) {
         Optional<Order> check = orderRepository.findById(id);
@@ -76,6 +80,7 @@ public class OrderController {
         }
     }
 
+    //Xóa order
     @DeleteMapping("/order/{id}")
     public ResponseEntity<?> deleteStaff(@PathVariable("id") Long id) {
         try {
