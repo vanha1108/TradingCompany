@@ -2,6 +2,7 @@ package com.exam.tradingcompany.controller;
 
 import com.exam.tradingcompany.entities.Staff;
 import com.exam.tradingcompany.repository.StaffRepository;
+import com.exam.tradingcompany.services.staff.StaffService;
 import org.apache.commons.validator.GenericValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,9 @@ import java.util.*;
 public class StaffController {
 
     @Autowired
+    private StaffService staffService;
+
+    @Autowired
     private StaffRepository staffRepository;
 
     //Lấy ra thông tin tất cả nhân viên
@@ -29,7 +33,7 @@ public class StaffController {
         try {
             List<Staff> staffs = new ArrayList<>();
             Pageable paging = PageRequest.of(page, size);
-            Page<Staff> staffPage = staffRepository.findAll((paging));
+            Page<Staff> staffPage = staffService.findAll((paging));
             staffs = staffPage.getContent();
             Map<String, Object> response = new HashMap<>();
             response.put("staffs", staffs);
@@ -46,7 +50,7 @@ public class StaffController {
     @GetMapping("/staff/{id}")
     public ResponseEntity<?> getStaffById(@PathVariable("id") Long id) {
         try {
-            Optional<Staff> staff = staffRepository.findById(id);
+            Optional<Staff> staff = staffService.findById(id);
             return new ResponseEntity<>(staff, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -61,7 +65,7 @@ public class StaffController {
             return new ResponseEntity<>("Please enter the full information", HttpStatus.BAD_REQUEST);
         }
         try {
-            staffRepository.save(staff);
+            staffService.save(staff);
             return new ResponseEntity<>(staff, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -71,7 +75,7 @@ public class StaffController {
     //Cập nhật nhân viên theo id
     @PatchMapping("/staff/{id}")
     public ResponseEntity<?> updateStaff(@PathVariable("id") Long id, @RequestBody Staff staff) {
-        Optional<Staff> check = staffRepository.findById(id);
+        Optional<Staff> check = staffService.findById(id);
         if (!check.isPresent()) {
             return new ResponseEntity<>("Staff not found", HttpStatus.NOT_FOUND);
         }
@@ -81,7 +85,7 @@ public class StaffController {
         }
         try {
             staff.setId(id);
-            staffRepository.save(staff);
+            staffService.save(staff);
             return new ResponseEntity<>(staff, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -92,7 +96,7 @@ public class StaffController {
     @DeleteMapping("/staff/{id}")
     public ResponseEntity<?> deleteStaff(@PathVariable("id") Long id) {
         try {
-            staffRepository.deleteById(id);
+            staffService.deleteById(id);
             return new ResponseEntity<>(id, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
