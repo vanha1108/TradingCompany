@@ -2,12 +2,18 @@ package com.exam.tradingcompany;
 
 import com.exam.tradingcompany.entities.*;
 import com.exam.tradingcompany.repository.*;
+import com.exam.tradingcompany.services.customer.CustomerService;
+import com.exam.tradingcompany.services.salesinvoice.SalesInvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Nguyễn Văn Hà
@@ -18,6 +24,12 @@ public class Main implements CommandLineRunner {
     public static void main(String[] args) {
         SpringApplication.run(com.exam.tradingcompany.Main.class, args);
     }
+
+    @Autowired
+    private SalesInvoiceService salesInvoiceService;
+
+    @Autowired
+    private CustomerService customerService;
 
     @Autowired
     private CustomerRepository customerRepository;
