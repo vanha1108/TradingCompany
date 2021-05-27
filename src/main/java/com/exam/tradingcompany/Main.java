@@ -43,6 +43,40 @@ public class Main implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         iniData();
+        
+         //In thử 1 số thông tin
+        //Tìm kiếm thử khách hàng tên, thứ tự ưu tiên tìm kiếm là name ->phone->address
+        Customer customer = customerService.searchCustomer("customer","","");
+        System.out.println("Kết quả tìm kiếm khách hàng theo tên, bỏ qua case sentive");
+        System.out.println("Tên khách hàng: "+customer.getName());
+        System.out.println("Địa chỉ: "+customer.getAddress());
+        System.out.println("Số điện thoại:"+customer.getPhone());
+        System.out.println("Email: "+customer.getEmail());
+        System.out.println("vv...");
+        System.out.println();
+
+        //Tương tự có thể tìm kiếm ở số điện thoại
+        Customer customer1 = customerService.searchCustomer("","","0123456789");
+        System.out.println("Kết quả tìm kiếm khách hàng theo số điện thoại");
+        System.out.println("Tên khách hàng: "+customer1.getName());
+        System.out.println("Địa chỉ: "+customer1.getAddress());
+        System.out.println("Số điện thoại:"+customer1.getPhone());
+        System.out.println("Email: "+customer1.getEmail());
+        System.out.println("vv...");
+        System.out.println("");
+
+        //Tìm kiếm tất cả hóa đơn trong 1 khoảng thời gian từ 10/10/2019 - 10/10/2021
+        Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse("10/10/2019");
+        Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse("28/5/2021");
+        Pageable paging = PageRequest.of(0, 10);
+        List<SalesInvoice> salesInvoices = salesInvoiceService.findAllSalesInvoceByPeriod(startDate,endDate,paging).getContent();
+        for (SalesInvoice sale : salesInvoices) {
+            System.out.println("id: "+sale.getId());
+            System.out.println("Số lượng: "+sale.getQuantity());
+            System.out.println("vv...");
+        }
+
+        //Thêm nữa...
     }
 
     //Hàm khởi tạo data, có thể nhân bản lên để có nhiều data
