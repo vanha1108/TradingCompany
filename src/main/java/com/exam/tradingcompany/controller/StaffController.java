@@ -23,6 +23,7 @@ public class StaffController {
     @Autowired
     private StaffRepository staffRepository;
 
+    //Lấy ra thông tin tất cả nhân viên
     @GetMapping("/staff")
     public ResponseEntity<?> getAllStaff(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
         try {
@@ -41,6 +42,7 @@ public class StaffController {
         }
     }
 
+    //Lấy thông tin nhân viên theo id
     @GetMapping("/staff/{id}")
     public ResponseEntity<?> getStaffById(@PathVariable("id") Long id) {
         try {
@@ -51,6 +53,7 @@ public class StaffController {
         }
     }
 
+    //Thêm mới một nhân viên
     @PostMapping("/staff")
     public ResponseEntity<?> createStaff(@RequestBody Staff staff) {
         if (GenericValidator.isBlankOrNull(staff.getName()) || GenericValidator.isBlankOrNull(staff.getAddress())
@@ -65,6 +68,7 @@ public class StaffController {
         }
     }
 
+    //Cập nhật nhân viên theo id
     @PatchMapping("/staff/{id}")
     public ResponseEntity<?> updateStaff(@PathVariable("id") Long id, @RequestBody Staff staff) {
         Optional<Staff> check = staffRepository.findById(id);
@@ -84,6 +88,7 @@ public class StaffController {
         }
     }
 
+    //Xóa nhân viên
     @DeleteMapping("/staff/{id}")
     public ResponseEntity<?> deleteStaff(@PathVariable("id") Long id) {
         try {

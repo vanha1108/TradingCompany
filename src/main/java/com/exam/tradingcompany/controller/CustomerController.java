@@ -2,6 +2,7 @@ package com.exam.tradingcompany.controller;
 
 import com.exam.tradingcompany.entities.Customer;
 import com.exam.tradingcompany.repository.CustomerRepository;
+import com.exam.tradingcompany.services.customer.CustomerService;
 import org.apache.commons.validator.GenericValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.*;
 
 /**
@@ -23,6 +25,11 @@ public class CustomerController {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private CustomerService customerService;
+
+    //Lấy tất cả thông tin khách hàng, phân trang
+    //Có thể truyền vào params: page là số trang,size là số lượng phần tử muốn lấy
     @GetMapping("/customer")
     public ResponseEntity<?> getAllCustomer(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
         try {
@@ -41,6 +48,21 @@ public class CustomerController {
         }
     }
 
+    //Tìm kiếm khách hàng theo tên, địa chỉ, số điện thoại
+    //Thứ tự ưu tiên sẽ là tên -> số điện thoại -> địa chỉ
+    @GetMapping("/customer/searching")
+    public  ResponseEntity<Customer> searchCustomer(@Valid @RequestParam(defaultValue = "") String name,
+                                             @RequestParam(defaultValue = "") String address,
+                                             @RequestParam(defaultValue = "") String phone){
+        try {
+            Customer customer = customerService.searchCustomer(name,address,phone);
+            return new ResponseEntity<>(customer,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    //Lấy thông tin khách hàng bởi id khách hàng
     @GetMapping("/customer/{id}")
     public ResponseEntity<?> getCustomerById(@PathVariable("id") Long id) {
         try {
@@ -51,6 +73,7 @@ public class CustomerController {
         }
     }
 
+    //Thêm mới khách hàng
     @PostMapping("/customer")
     public ResponseEntity<?> createCustomer(@RequestBody Customer customer) {
         if (GenericValidator.isBlankOrNull(customer.getName()) || GenericValidator.isBlankOrNull(customer.getAddress())
@@ -59,6 +82,7 @@ public class CustomerController {
             return new ResponseEntity<>("Please enter the full information", HttpStatus.BAD_REQUEST);
         }
         try {
+            customer.setName(customer.getName().toUpperCase());
             customerRepository.save(customer);
             return new ResponseEntity<>(customer, HttpStatus.OK);
         } catch (Exception e) {
@@ -66,6 +90,7 @@ public class CustomerController {
         }
     }
 
+    //Cập nhật thông tin khách hàng
     @PatchMapping("/customer/{id}")
     public ResponseEntity<?> updateCustomer(@PathVariable("id") Long id, @RequestBody Customer customer) {
         Optional<Customer> check = customerRepository.findById(id);
@@ -86,6 +111,7 @@ public class CustomerController {
         }
     }
 
+    //Xóa khách hàng theo id
     @DeleteMapping("/customer/{id}")
     public ResponseEntity<?> deleteCustomer(@PathVariable("id") Long id) {
         try {

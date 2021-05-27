@@ -19,22 +19,11 @@ public class Category {
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "category")
-    private List<Product> news = new ArrayList<>();
-
     public Category() {
     }
 
     public Category(String name) {
         this.name = name;
-    }
-
-    public List<Product> getNews() {
-        return news;
-    }
-
-    public void setNews(List<Product> news) {
-        this.news = news;
     }
 
     public Long getId() {
